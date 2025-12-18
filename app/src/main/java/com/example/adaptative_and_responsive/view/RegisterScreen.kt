@@ -12,7 +12,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.text.input.TextFieldValue
 import com.example.adaptative_and_responsive.viewmodel.viewModel
 
 @Composable
@@ -21,8 +20,8 @@ fun RegisterScreen(
     onBackToLogin: () -> Unit
 ) {
     val user by viewModel.user.collectAsState()
-    val birthDate by viewModel.birthDateValue.collectAsState()
-    val error by viewModel.errorMessage.collectAsState(initial = "")
+    val birthDateValue by viewModel.birthDateValue.collectAsState()
+    val error by viewModel.errorMessage.collectAsState()
 
     Column(
         modifier = Modifier
@@ -31,9 +30,8 @@ fun RegisterScreen(
             .padding(16.dp)
     ) {
         AppBanner()
-
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "Registre", style = MaterialTheme.typography.headlineSmall)
+        Text("Registre", style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
@@ -45,7 +43,7 @@ fun RegisterScreen(
         )
 
         OutlinedTextField(
-            value = birthDate,
+            value = birthDateValue,
             onValueChange = viewModel::onBirthDateChange,
             label = { Text("Data de naixement (dd/mm/yyyy)") },
             modifier = Modifier.fillMaxWidth(),
@@ -95,22 +93,17 @@ fun RegisterScreen(
         )
 
         Spacer(modifier = Modifier.height(8.dp))
+
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Checkbox(
-                checked = user.termsAccepted,
-                onCheckedChange = viewModel::onTermsAcceptedChange
-            )
+            Checkbox(checked = user.termsAccepted, onCheckedChange = viewModel::onTermsAcceptedChange)
             Spacer(modifier = Modifier.width(8.dp))
             Text("Accepto els termes i condicions")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+
         if (error.isNotEmpty()) {
-            Text(
-                text = error,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodyMedium
-            )
+            Text(error, color = MaterialTheme.colorScheme.error)
             Spacer(modifier = Modifier.height(8.dp))
         }
 
@@ -122,10 +115,8 @@ fun RegisterScreen(
         }
 
         Spacer(modifier = Modifier.height(8.dp))
-        TextButton(
-            onClick = onBackToLogin,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
+
+        TextButton(onClick = onBackToLogin, modifier = Modifier.align(Alignment.CenterHorizontally)) {
             Text("Ja tens compte? Inicia sessió")
         }
     }

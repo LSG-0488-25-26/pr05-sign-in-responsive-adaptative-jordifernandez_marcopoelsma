@@ -28,60 +28,41 @@ fun LoginScreen(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        // Banner superior
         AppBanner()
-
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Título
-        Text(
-            text = "Inici de sessió",
-            style = MaterialTheme.typography.headlineSmall
-        )
+        Text("Inici de sessió", style = MaterialTheme.typography.headlineSmall)
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Campo de nombre de usuario
         OutlinedTextField(
             value = user.username,
             onValueChange = viewModel::onUsernameChange,
             label = { Text("Nom d’usuari") },
             modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            )
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text, imeAction = ImeAction.Next)
         )
 
-        // Campo de password
         OutlinedTextField(
             value = user.password,
             onValueChange = viewModel::onPasswordChange,
             label = { Text("Password") },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            )
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done)
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Mostrar mensaje de error
         if (error.isNotEmpty()) {
-            Text(
-                text = error,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.bodyMedium
-            )
+            Text(error, color = MaterialTheme.colorScheme.error)
             Spacer(modifier = Modifier.height(8.dp))
         }
 
-        // Botón de iniciar sesión
         Button(
             onClick = {
-                if (viewModel.isLoginValid(user.username, user.password)) {
-                    viewModel.goToHome()
+                // Només permet entrar si coincideix usuari i password
+                if (viewModel.login(user.username, user.password)) {
+                    // Aquí navegaries a HomeScreen
                 }
             },
             modifier = Modifier.fillMaxWidth()
@@ -89,9 +70,9 @@ fun LoginScreen(
             Text("Inicia sessió")
         }
 
+
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Botón para ir a registro
         TextButton(
             onClick = onNavigateToRegister,
             modifier = Modifier.align(Alignment.CenterHorizontally)
