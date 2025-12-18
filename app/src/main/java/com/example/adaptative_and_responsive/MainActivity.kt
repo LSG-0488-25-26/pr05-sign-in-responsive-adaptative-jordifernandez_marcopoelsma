@@ -14,11 +14,11 @@ import com.example.adaptative_and_responsive.ui.theme.Adaptative_and_responsiveT
 import com.example.adaptative_and_responsive.view.HomeScreen
 import com.example.adaptative_and_responsive.view.LoginScreen
 import com.example.adaptative_and_responsive.view.RegisterScreen
-import com.example.adaptative_and_responsive.viewmodel.RegisterViewModel
+import com.example.adaptative_and_responsive.viewmodel.viewModel
 
 class MainActivity : ComponentActivity() {
 
-    private val registerViewModel: RegisterViewModel by viewModels()
+    private val viewModel: viewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,17 +26,17 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             Adaptative_and_responsiveTheme {
-                val showHome by registerViewModel.showHome.collectAsState()
+                val showHome by viewModel.showHome.collectAsState()
                 var showRegister by remember { mutableStateOf(false) }
 
                 when {
-                    showHome -> HomeScreen(viewModel = registerViewModel)
+                    showHome -> HomeScreen(viewModel = viewModel)
                     showRegister -> RegisterScreen(
-                        viewModel = registerViewModel,
+                        viewModel = viewModel,
                         onBackToLogin = { showRegister = false }
                     )
                     else -> LoginScreen(
-                        viewModel = registerViewModel,
+                        viewModel = viewModel,
                         onNavigateToRegister = { showRegister = true }
                     )
                 }

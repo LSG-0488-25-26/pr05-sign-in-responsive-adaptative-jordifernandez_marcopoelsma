@@ -7,5 +7,6 @@ data class User(
     val phone: String = "",
     val username: String = "",
     val password: String = "",
+    val confirmPassword: String = "",
     val termsAccepted: Boolean = false
 )

@@ -7,9 +7,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.adaptative_and_responsive.viewmodel.RegisterViewModel
+import com.example.adaptative_and_responsive.viewmodel.viewModel
 @Composable
-fun HomeScreen(viewModel: RegisterViewModel) {
+fun HomeScreen(viewModel: viewModel) {
     val user by viewModel.user.collectAsState()
 
     val displayName = if (user.fullName.isNotEmpty()) user.fullName else user.username
