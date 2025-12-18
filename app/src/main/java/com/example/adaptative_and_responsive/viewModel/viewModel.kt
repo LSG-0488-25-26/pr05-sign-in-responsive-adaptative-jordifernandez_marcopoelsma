@@ -1,5 +1,7 @@
 package com.example.adaptative_and_responsive.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
@@ -22,23 +24,45 @@ class viewModel : ViewModel() {
     val birthDateValue: StateFlow<TextFieldValue> = _birthDateValue
 
     fun onBirthDateChange(input: TextFieldValue) {
-        val numbersOnly = input.text.filter { it.isDigit() }
-        val builder = StringBuilder()
+        val oldValue = _birthDateValue.value
+        val oldText = oldValue.text
+        val newText = input.text
 
-        for (i in numbersOnly.indices) {
-            builder.append(numbersOnly[i])
-            if (i == 1 || i == 3) builder.append('/')
-            if (builder.length >= 10) break
+        // Detectar si se está borrando
+        val isDeleting = newText.length < oldText.length
+
+        // Extraer solo números
+        val digits = newText.filter { it.isDigit() }
+
+        // Construir la fecha agregando '/' solo si es necesario
+        val builder = StringBuilder()
+        for (i in digits.indices) {
+            builder.append(digits[i])
+            if (!isDeleting) {
+                if (i == 1 || i == 3) builder.append('/')
+            }
         }
 
-        val newText = builder.toString()
-        _birthDateValue.value = TextFieldValue(
-            text = newText,
-            selection = TextRange(newText.length)
-        )
+        // Limitar a 10 caracteres
+        val finalText = if (builder.length > 10) builder.substring(0, 10) else builder.toString()
 
-        _user.value = _user.value.copy(birthDate = newText)
+        // Calcular nueva posición del cursor
+        var cursor = input.selection.start
+        if (!isDeleting) {
+            // Ajustar cursor si se ha insertado un '/'
+            if (cursor == 2 || cursor == 5) cursor += 1
+        }
+        if (cursor > finalText.length) cursor = finalText.length
+
+        // Actualizar el TextFieldValue y el User
+        _birthDateValue.value = TextFieldValue(
+            text = finalText,
+            selection = TextRange(cursor)
+        )
+        _user.value = _user.value.copy(birthDate = finalText)
     }
+
+
 
     // -----------------------
     // Navegación a Home
@@ -84,6 +108,7 @@ class viewModel : ViewModel() {
     // -----------------------
     // Validación de registro
     // -----------------------
+    @RequiresApi(Build.VERSION_CODES.O)
     fun isRegisterValid(): Boolean {
         val u = _user.value
         _errorMessage.value = ""
@@ -98,6 +123,19 @@ class viewModel : ViewModel() {
         if (!u.birthDate.matches(Regex("^\\d{2}/\\d{2}/\\d{4}\$"))) {
             _errorMessage.value = "Data de naixement invàlida (dd/mm/yyyy)"
             return false
+        } else {
+            try {
+                val formatter = java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")
+                val birthDate = java.time.LocalDate.parse(u.birthDate, formatter)
+                val today = java.time.LocalDate.now()
+                if (!birthDate.isBefore(today)) {
+                    _errorMessage.value = "La data de naixement ha de ser anterior al dia d’avui"
+                    return false
+                }
+            } catch (e: Exception) {
+                _errorMessage.value = "Data de naixement invàlida"
+                return false
+            }
         }
 
         // Email
