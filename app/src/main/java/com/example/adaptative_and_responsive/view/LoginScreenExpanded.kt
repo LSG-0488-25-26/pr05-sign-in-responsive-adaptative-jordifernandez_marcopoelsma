@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,49 +15,40 @@ import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.adaptative_and_responsive.viewmodel.viewModel
 
 @Composable
-fun LoginScreenMedium(
+fun LoginScreenExpanded(
     viewModel: viewModel,
-    isLandscape: Boolean,
     onNavigateToRegister: () -> Unit
 ) {
     val user by viewModel.user.collectAsState()
     val error by viewModel.errorMessage.collectAsState()
 
-    AppBanner(WindowSizeClass,)
-
-    if (isLandscape) {
-        Row(
+    Row(modifier = Modifier.fillMaxSize()) {
+        AppBanner(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(32.dp),
-            horizontalArrangement = Arrangement.SpaceEvenly,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.width(320.dp)) {
-                Text("Inici de sessió", style = MaterialTheme.typography.headlineMedium)
-                Spacer(Modifier.height(16.dp))
-                LoginForm(viewModel, user, error)
-            }
+                .fillMaxHeight()
+                .width(320.dp),
+            windowSizeClass = WindowSizeClass
+        )
 
-            LoginActions(viewModel, user, onNavigateToRegister)
-        }
-    } else {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(48.dp),
+            verticalArrangement = Arrangement.Center
         ) {
-            Text("Inici de sessió", style = MaterialTheme.typography.headlineSmall)
+            Text("Inici de sessió", style = MaterialTheme.typography.headlineLarge)
+
             Spacer(Modifier.height(24.dp))
+
             LoginForm(viewModel, user, error)
-            Spacer(Modifier.height(24.dp))
+
+            Spacer(Modifier.height(32.dp))
+
             LoginActions(viewModel, user, onNavigateToRegister)
         }
     }

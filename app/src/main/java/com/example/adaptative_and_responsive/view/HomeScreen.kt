@@ -1,7 +1,6 @@
 package com.example.adaptative_and_responsive.view
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -9,7 +8,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.adaptative_and_responsive.viewmodel.viewModel
-import com.example.adaptative_and_responsive.view.*
 import androidx.compose.ui.platform.LocalConfiguration
 import android.content.res.Configuration
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
@@ -27,7 +25,7 @@ fun HomeScreen(
         configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     Column(modifier = Modifier.fillMaxSize()) {
-        AppBanner(windowSizeClass)
+        AppBanner(windowSizeClass,)
 
         Spacer(modifier = Modifier.height(32.dp))
 

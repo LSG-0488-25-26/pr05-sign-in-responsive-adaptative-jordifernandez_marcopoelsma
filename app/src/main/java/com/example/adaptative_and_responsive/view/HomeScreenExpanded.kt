@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.adaptative_and_responsive.viewmodel.viewModel
-import android.util.Size
 import androidx.compose.ui.unit.DpSize
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
@@ -33,7 +32,7 @@ fun HomeScreenMedium(
     val displayName = if (user.fullName.isNotEmpty()) user.fullName else user.username
 
     Column(modifier = Modifier.fillMaxSize()) {
-        AppBanner(windowSizeClass = WindowSizeClass.calculateFromSize(android.util.DpSize(0, 0)))
+        AppBanner(windowSizeClass = WindowSizeClass.calculateFromSize(android.util.DpSize(0, 0)),)
 
         if (isLandscape) {
             Row(
