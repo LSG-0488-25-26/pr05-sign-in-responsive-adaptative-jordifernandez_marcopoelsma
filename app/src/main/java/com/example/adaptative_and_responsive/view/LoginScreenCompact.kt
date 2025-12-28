@@ -3,12 +3,14 @@ package com.example.adaptative_and_responsive.view
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,6 +21,7 @@ import com.example.adaptative_and_responsive.viewmodel.viewModel
 @Composable
 fun LoginScreenCompact(
     viewModel: viewModel,
+    windowSizeClass: WindowSizeClass, // <- instància real
     onNavigateToRegister: () -> Unit
 ) {
     val user by viewModel.user.collectAsState()
@@ -31,7 +34,8 @@ fun LoginScreenCompact(
             .padding(16.dp)
     ) {
         AppBanner(
-            windowSizeClass = TODO(),
+            windowSizeClass = windowSizeClass, // <- passa la instància correcta
+            modifier = Modifier.fillMaxWidth()
         )
 
         Spacer(Modifier.height(24.dp))

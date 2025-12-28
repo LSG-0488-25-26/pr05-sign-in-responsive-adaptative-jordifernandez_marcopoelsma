@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,12 +24,14 @@ import com.example.adaptative_and_responsive.viewmodel.viewModel
 fun LoginScreenMedium(
     viewModel: viewModel,
     isLandscape: Boolean,
+    windowSizeClass: WindowSizeClass, // <-- passa la instància aquí
     onNavigateToRegister: () -> Unit
 ) {
     val user by viewModel.user.collectAsState()
     val error by viewModel.errorMessage.collectAsState()
 
-    AppBanner(WindowSizeClass,)
+    // Passa la instància correcta
+    AppBanner(windowSizeClass = windowSizeClass)
 
     if (isLandscape) {
         Row(
@@ -61,3 +64,4 @@ fun LoginScreenMedium(
         }
     }
 }
+

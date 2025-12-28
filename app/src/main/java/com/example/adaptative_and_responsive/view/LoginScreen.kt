@@ -1,8 +1,6 @@
 package com.example.adaptative_and_responsive.view
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
@@ -21,13 +19,13 @@ fun LoginScreen(
 
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact ->
-            LoginScreenCompact(viewModel, onNavigateToRegister)
+            LoginScreenCompact(viewModel, windowSizeClass, onNavigateToRegister)
 
         WindowWidthSizeClass.Medium ->
-            LoginScreenMedium(viewModel, isLandscape, onNavigateToRegister)
+            LoginScreenMedium(viewModel, isLandscape, windowSizeClass, onNavigateToRegister)
 
         WindowWidthSizeClass.Expanded ->
-            LoginScreenExpanded(viewModel, onNavigateToRegister)
+            LoginScreenExpanded(viewModel, onNavigateToRegister, windowSizeClass)
     }
 }
 

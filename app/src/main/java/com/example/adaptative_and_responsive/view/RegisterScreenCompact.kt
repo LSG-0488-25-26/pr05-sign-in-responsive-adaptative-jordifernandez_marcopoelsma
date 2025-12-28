@@ -24,6 +24,7 @@ import com.example.adaptative_and_responsive.viewmodel.viewModel
 @Composable
 fun RegisterScreenCompact(
     viewModel: viewModel,
+    windowSizeClass: WindowSizeClass, // <-- rep la instància aquí
     onBackToLogin: () -> Unit
 ) {
     val user by viewModel.user.collectAsState()
@@ -37,10 +38,9 @@ fun RegisterScreenCompact(
             .padding(16.dp)
     ) {
         AppBanner(
-            windowSizeClass = WindowSizeClass,
+            windowSizeClass = windowSizeClass, // <-- passa la instància correcta
             modifier = Modifier.fillMaxWidth()
         )
-
 
         Spacer(Modifier.height(16.dp))
 
@@ -52,6 +52,7 @@ fun RegisterScreenCompact(
 
         Spacer(Modifier.height(16.dp))
 
-        RegisterActions(viewModel, onBackToLogin)
+        RegisterForm(viewModel, user, birthDateValue, error)
     }
 }
+

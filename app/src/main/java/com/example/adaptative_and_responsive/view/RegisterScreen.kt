@@ -21,13 +21,13 @@ fun RegisterScreen(
 
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact ->
-            RegisterScreenCompact(viewModel, onBackToLogin)
+            RegisterScreenCompact(viewModel, windowSizeClass, onBackToLogin)
 
         WindowWidthSizeClass.Medium ->
-            RegisterScreenMedium(viewModel, isLandscape, onBackToLogin)
+            RegisterScreenMedium(viewModel, isLandscape, windowSizeClass, onBackToLogin)
 
         WindowWidthSizeClass.Expanded ->
-            RegisterScreenExpanded(viewModel, onBackToLogin)
+            RegisterScreenExpanded(viewModel, windowSizeClass, onBackToLogin)
     }
 }
 

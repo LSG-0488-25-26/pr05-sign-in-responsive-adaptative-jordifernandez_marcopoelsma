@@ -24,58 +24,24 @@ import androidx.compose.ui.unit.DpSize
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Composable
-fun HomeScreenMedium(
-    viewModel: viewModel,
-    isLandscape: Boolean
-) {
+fun HomeScreenExpanded(viewModel: viewModel, windowSizeClass: WindowSizeClass) {
     val user by viewModel.user.collectAsState()
     val displayName = if (user.fullName.isNotEmpty()) user.fullName else user.username
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        AppBanner(windowSizeClass = WindowSizeClass.calculateFromSize(android.util.DpSize(0, 0)),)
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .padding(32.dp),
+        horizontalArrangement = Arrangement.spacedBy(32.dp)
+    ) {
+        AppBanner(windowSizeClass)
 
-        if (isLandscape) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = "Benvingut/da, $displayName!",
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                    Spacer(Modifier.height(12.dp))
-                    Text("Has iniciat sessió correctament.")
-                }
-
-                Button(
-                    onClick = { viewModel.backToInitial() },
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                ) {
-                    Text("Tornar")
-                }
-            }
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp)
-            ) {
-                Text(
-                    text = "Benvingut/da, $displayName!",
-                    style = MaterialTheme.typography.headlineSmall
-                )
-                Spacer(Modifier.height(16.dp))
-                Text("Has iniciat sessió correctament.")
-                Spacer(Modifier.height(32.dp))
-                Button(
-                    onClick = { viewModel.backToInitial() },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Tornar")
-                }
+        Column(modifier = Modifier.weight(1f)) {
+            Text("Benvingut/da, $displayName!", style = MaterialTheme.typography.headlineLarge)
+            Spacer(modifier = Modifier.height(24.dp))
+            Text("Has iniciat sessió correctament.", style = MaterialTheme.typography.bodyLarge)
+            Spacer(modifier = Modifier.weight(1f))
+            Button(onClick = { viewModel.backToInitial() }, modifier = Modifier.fillMaxWidth()) {
+                Text("Tornar")
             }
         }
     }

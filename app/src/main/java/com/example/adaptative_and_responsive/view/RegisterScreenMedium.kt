@@ -25,13 +25,18 @@ import com.example.adaptative_and_responsive.viewmodel.viewModel
 fun RegisterScreenMedium(
     viewModel: viewModel,
     isLandscape: Boolean,
+    windowSizeClass: WindowSizeClass, // <-- afegim aquest paràmetre
     onBackToLogin: () -> Unit
 ) {
     val user by viewModel.user.collectAsState()
     val birthDateValue by viewModel.birthDateValue.collectAsState()
     val error by viewModel.errorMessage.collectAsState()
 
-    AppBanner()
+    // Passa la instància correcta de WindowSizeClass
+    AppBanner(
+        windowSizeClass = windowSizeClass,
+        modifier = Modifier.fillMaxWidth()
+    )
 
     if (isLandscape) {
         Row(
@@ -49,7 +54,7 @@ fun RegisterScreenMedium(
             Column(
                 verticalArrangement = Arrangement.Center
             ) {
-                RegisterActions(viewModel, onBackToLogin)
+                RegisterForm(viewModel, user, birthDateValue, error)
             }
         }
     } else {
@@ -62,7 +67,8 @@ fun RegisterScreenMedium(
             Spacer(Modifier.height(24.dp))
             RegisterForm(viewModel, user, birthDateValue, error)
             Spacer(Modifier.height(24.dp))
-            RegisterActions(viewModel, onBackToLogin)
+            RegisterForm(viewModel, user, birthDateValue, error)
         }
     }
 }
+

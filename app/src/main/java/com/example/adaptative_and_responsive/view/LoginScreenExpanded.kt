@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,7 +23,8 @@ import com.example.adaptative_and_responsive.viewmodel.*
 @Composable
 fun LoginScreenExpanded(
     viewModel: viewModel,
-    onNavigateToRegister: () -> Unit
+    onNavigateToRegister: () -> Unit,
+    windowSizeClass: WindowSizeClass // <- aquí rebes la instància
 ) {
     val user by viewModel.user.collectAsState()
     val error by viewModel.errorMessage.collectAsState()
@@ -32,7 +34,7 @@ fun LoginScreenExpanded(
             modifier = Modifier
                 .fillMaxHeight()
                 .width(320.dp),
-            windowSizeClass = WindowSizeClass
+            windowSizeClass = windowSizeClass // <- passa la instància real
         )
 
         Column(
@@ -45,7 +47,7 @@ fun LoginScreenExpanded(
 
             Spacer(Modifier.height(24.dp))
 
-            login(viewModel, user, error)
+            LoginForm(viewModel, user, error)
 
             Spacer(Modifier.height(32.dp))
 
