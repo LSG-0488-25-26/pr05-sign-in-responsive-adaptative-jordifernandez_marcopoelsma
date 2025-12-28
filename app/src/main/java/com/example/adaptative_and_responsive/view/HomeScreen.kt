@@ -25,7 +25,7 @@ fun HomeScreen(
         configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     Column(modifier = Modifier.fillMaxSize()) {
-        AppBanner(windowSizeClass,)
+        AppBanner(windowSizeClass, Modifier)
 
         Spacer(modifier = Modifier.height(32.dp))
 

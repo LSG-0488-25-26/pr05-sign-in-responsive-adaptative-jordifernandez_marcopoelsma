@@ -7,11 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-fun AppBanner(windowSizeClass: WindowSizeClass.Companion, modifier: Modifier) {
+fun AppBanner(
+    windowSizeClass: WindowSizeClass,
+    modifier: Modifier = Modifier
+) {
     when (windowSizeClass.widthSizeClass) {
         WindowWidthSizeClass.Compact -> AppBannerCompact()
         WindowWidthSizeClass.Medium -> AppBannerMedium()
         WindowWidthSizeClass.Expanded -> AppBannerExpanded()
     }
 }
+
 
