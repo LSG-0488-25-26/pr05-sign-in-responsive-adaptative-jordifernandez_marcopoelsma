@@ -17,7 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.adaptative_and_responsive.viewmodel.viewModel
+import com.example.adaptative_and_responsive.viewmodel.*
 
 @Composable
 fun LoginScreenExpanded(
@@ -45,7 +45,7 @@ fun LoginScreenExpanded(
 
             Spacer(Modifier.height(24.dp))
 
-            LoginForm(viewModel, user, error)
+            login(viewModel, user, error)
 
             Spacer(Modifier.height(32.dp))
 
