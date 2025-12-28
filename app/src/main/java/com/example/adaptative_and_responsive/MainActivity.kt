@@ -20,50 +20,33 @@ import com.example.adaptative_and_responsive.viewmodel.RegisterViewModel
 import android.content.res.Configuration
 import androidx.compose.ui.platform.LocalConfiguration
 
+import com.example.adaptative_and_responsive.viewmodel.viewModel
 
 class MainActivity : ComponentActivity() {
 
-    private val registerViewModel: RegisterViewModel by viewModels()
+    private val viewModel: viewModel by viewModels()
 
-
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         setContent {
             Adaptative_and_responsiveTheme {
-
-                val windowSize = calculateWindowSizeClass(this)
-
-                val showHome by registerViewModel.showHome.collectAsState()
+                val showHome by viewModel.showHome.collectAsState()
                 var showRegister by remember { mutableStateOf(false) }
 
-                val configuration = LocalConfiguration.current
-                val isLandscape = configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
                 when {
-                    showHome -> HomeScreen(
-                        viewModel = registerViewModel,
-                        windowSize = windowSize,
-                        isLandscape = isLandscape
-                    )
+                    showHome -> HomeScreen(viewModel = viewModel)
                     showRegister -> RegisterScreen(
-                        viewModel = registerViewModel,
-                        windowSize = windowSize,
-                        isLandscape = isLandscape,
+                        viewModel = viewModel,
                         onBackToLogin = { showRegister = false }
                     )
                     else -> LoginScreen(
-                        viewModel = registerViewModel,
-                        windowSize = windowSize,
-                        isLandscape = isLandscape,
+                        viewModel = viewModel,
                         onNavigateToRegister = { showRegister = true }
                     )
                 }
-
             }
         }
-
     }
 }

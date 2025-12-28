@@ -2,28 +2,50 @@ package com.example.adaptative_and_responsive.view
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.adaptative_and_responsive.viewmodel.RegisterViewModel
+import com.example.adaptative_and_responsive.viewmodel.viewModel
+import com.example.adaptative_and_responsive.view.*
+import androidx.compose.ui.platform.LocalConfiguration
+import android.content.res.Configuration
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+
 @Composable
 fun HomeScreen(
-    viewModel: RegisterViewModel,
-    windowSize: WindowSizeClass,
-    isLandscape: Boolean
+    viewModel: viewModel,
+    windowSizeClass: WindowSizeClass
 ) {
-    when (windowSize.widthSizeClass) {
-        WindowWidthSizeClass.Compact ->
-            HomeScreenCompact(viewModel)
+    val user by viewModel.user.collectAsState()
+    val displayName = if (user.fullName.isNotEmpty()) user.fullName else user.username
 
-        WindowWidthSizeClass.Medium ->
-            HomeScreenMedium(viewModel, isLandscape)
+    val configuration = LocalConfiguration.current
+    val isLandscape =
+        configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-        WindowWidthSizeClass.Expanded ->
-            HomeScreenExpanded(viewModel)
+    Column(modifier = Modifier.fillMaxSize()) {
+        AppBanner(windowSizeClass)
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        when (windowSizeClass.widthSizeClass) {
+            WindowWidthSizeClass.Compact -> {
+                HomeScreenCompact(viewModel)
+            }
+
+            WindowWidthSizeClass.Medium -> {
+                HomeScreenMedium(viewModel, isLandscape)
+            }
+
+            WindowWidthSizeClass.Expanded -> {
+                HomeScreenExpanded(
+                    viewModel,
+                    isLandscape
+                )
+            }
+        }
     }
 }

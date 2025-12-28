@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 @Composable
-fun HomeScreenMedium(
+fun HomeScreenExpanded(
     viewModel: RegisterViewModel,
     isLandscape: Boolean
 ) {

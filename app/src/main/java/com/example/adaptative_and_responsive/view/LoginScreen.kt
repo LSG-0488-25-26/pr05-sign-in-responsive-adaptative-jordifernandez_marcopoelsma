@@ -1,65 +1,42 @@
 package com.example.adaptative_and_responsive.view
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.adaptative_and_responsive.viewmodel.RegisterViewModel
+import com.example.adaptative_and_responsive.viewmodel.viewModel
 
 @Composable
 fun LoginScreen(
-    viewModel: RegisterViewModel,
-    windowSize: WindowSizeClass,
-    isLandscape: Boolean,
+    viewModel: viewModel,
+    windowSizeClass: WindowSizeClass,
     onNavigateToRegister: () -> Unit
 ) {
-    val user by viewModel.user.collectAsState()
+    val configuration = LocalConfiguration.current
+    val isLandscape =
+        configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
-    ) {
-        AppBanner()
+    when (windowSizeClass.widthSizeClass) {
+        WindowWidthSizeClass.Compact ->
+            LoginScreenCompact(viewModel, onNavigateToRegister)
 
-        Spacer(modifier = Modifier.height(32.dp))
+        WindowWidthSizeClass.Medium ->
+            LoginScreenMedium(viewModel, isLandscape, onNavigateToRegister)
 
-        Text(text = "Inici de sessió", style = MaterialTheme.typography.headlineSmall)
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = user.username,
-            onValueChange = viewModel::onUsernameChange,
-            label = { Text("Nom d’usuari") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        OutlinedTextField(
-            value = user.password,
-            onValueChange = viewModel::onPasswordChange,
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = { if(viewModel.isLoginValid()) viewModel.goToHome() },
-            modifier = Modifier.fillMaxWidth()
-        ) { Text("Inicia sessió") }
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        TextButton(onClick = onNavigateToRegister, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Text("No tens compte? Registra’t")
-        }
+        WindowWidthSizeClass.Expanded ->
+            LoginScreenExpanded(viewModel, onNavigateToRegister)
     }
 }
+
