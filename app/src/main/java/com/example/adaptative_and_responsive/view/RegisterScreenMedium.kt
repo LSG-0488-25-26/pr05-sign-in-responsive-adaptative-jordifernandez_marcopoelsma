@@ -54,7 +54,7 @@ fun RegisterScreenMedium(
             Column(
                 verticalArrangement = Arrangement.Center
             ) {
-                RegisterForm(viewModel, user, birthDateValue, error)
+                RegisterActions(viewModel, windowSizeClass, onBackToLogin)
             }
         }
     } else {
@@ -67,7 +67,7 @@ fun RegisterScreenMedium(
             Spacer(Modifier.height(24.dp))
             RegisterForm(viewModel, user, birthDateValue, error)
             Spacer(Modifier.height(24.dp))
-            RegisterForm(viewModel, user, birthDateValue, error)
+            RegisterActions(viewModel, windowSizeClass, onBackToLogin)
         }
     }
 }

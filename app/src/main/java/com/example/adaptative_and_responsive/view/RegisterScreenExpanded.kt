@@ -26,7 +26,7 @@ import com.example.adaptative_and_responsive.viewmodel.viewModel
 @Composable
 fun RegisterScreenExpanded(
     viewModel: viewModel,
-    windowSizeClass: WindowSizeClass, // <-- instància real
+    windowSizeClass: WindowSizeClass,
     onBackToLogin: () -> Unit
 ) {
     val user by viewModel.user.collectAsState()
@@ -35,7 +35,7 @@ fun RegisterScreenExpanded(
 
     Row(modifier = Modifier.fillMaxSize()) {
         AppBanner(
-            windowSizeClass = windowSizeClass, // <-- passa la instància correcta
+            windowSizeClass = windowSizeClass,
             modifier = Modifier
                 .fillMaxHeight()
                 .width(320.dp)
@@ -55,7 +55,7 @@ fun RegisterScreenExpanded(
 
             Spacer(Modifier.height(32.dp))
 
-            RegisterForm(viewModel, user, birthDateValue, error)
+            RegisterActions(viewModel, windowSizeClass, onBackToLogin)
         }
     }
 }
